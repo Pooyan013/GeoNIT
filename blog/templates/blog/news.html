@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="Blog-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="Blogheading">
+                        <h3>ژئو <span class="orange_color">نيوز</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 text-center">
+        <div class="row justify-content-center">
+            {% for news in page_obj %}
+                <div class="col-md-5 news-item">
+                    <img src="{{ news.image.url }}" alt="{% static 'blog/images/blog1.png' %}" style="width: 400px; height: 200px">
+                    <h3 class="news-title">{{ news.title }}</h3>
+                    <p class="news-summary">{{ news.body|truncatewords:30 }}</p>
+                    <small class="news-meta">{{ news.created|date:"F d, Y" }}</small>
+                    <a href="{% url 'news_detail' slug=news.slug %}" class="orange_color">... ادامه خبر</a>
+                </div>
+            {% empty %}
+                <p class="no-news">هیچ خبری موجود نیست.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Pagination Links -->
+    <div style="text-align: center; margin-top: 20px;">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">اولین</a>
+            <a href="?page={{ page_obj.previous_page_number }}">قبلی</a>
+        {% endif %}
+
+        <span>صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">بعدی</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">آخرین</a>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <div style="display: flex; width: 80%; margin: auto; height: 80vh; align-items: center; justify-content: center;">
+
+        <!-- بخش تصویر -->
+        <div style="width: 50%; display: flex; justify-content: center;">
+            <img src="{{ news.image.url }}" alt="{{ news.title }}" style="width: 600px; height: 400px; border-radius: 10px;">
+        </div>
+
+        <!-- بخش متن خبر -->
+        <div style="width: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h2>{{ news.title }}</h2>
+            <small style="color: gray;">{{ news.created|date:"Y/m/d" }}</small>
+            <p style="width: 80%; text-align: justify;">{{ news.body }}</p>
+
+            <!-- دکمه‌های اشتراک‌گذاری و چاپ -->
+            <div style="margin-top: 30px;">
+                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}"
+                   target="_blank"
+                   style="text-decoration: none; background-color: #0088cc; color: white; padding: 10px 15px; border-radius: 10px; margin-right: 10px;">
+                    <i class="fa fa-telegram"></i> اشتراک‌گذاری
+                </a>
+
+
+                <button onclick="window.print()"
+                        style="background-color: #333; color: white; padding: 6px 25px; border: none; border-radius: 10px; cursor: pointer;margin-left: 10px;">
+                    <i class="fa fa-print"></i> چاپ خبر
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+{% endblock %}

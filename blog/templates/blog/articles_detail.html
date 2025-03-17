@@ -1,0 +1,62 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div style="display: flex; width: 80%; margin: auto; height: auto; align-items: center; justify-content: center;">
+
+        <!-- بخش تصاویر -->
+        <div style="width: 50%; display: flex; flex-direction: column; align-items: center;">
+            {% if article.image1 %}
+                <img src="{{ article.image1.url }}" alt="{{ article.title }}"
+                     style="width: 400px; height: 250px; border-radius: 10px; margin-bottom: 10px;">
+            {% endif %}
+            {% if article.image2 %}
+                <img src="{{ article.image2.url }}" alt="{{ article.title }}"
+                     style="width: 400px; height: 250px; border-radius: 10px;">
+            {% endif %}
+        </div>
+
+        <!-- بخش متن مقاله -->
+        <div style="width: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h2>{{ article.title }}</h2>
+            <small style="color: gray;">نویسنده: {{ article.author }} | تاریخ
+                انتشار: {{ article.created_at|date:"Y/m/d" }}</small>
+
+            <div style="width: 80%; text-align: justify; margin-top: 10px;">
+                <h3 style="text-align: center;">مقدمه</h3>
+                <p>{{ article.introduction }}</p>
+
+                <h3 style="text-align: center;">متن مقاله</h3>
+                <p>{{ article.body }}</p>
+            </div>
+
+            <!-- دکمه‌های عملیات -->
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+
+                <!-- دکمه اشتراک‌گذاری تلگرام -->
+                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}"
+                   target="_blank"
+                   style="text-decoration: none; background-color: #0088cc; color: white; padding: 10px 15px; border-radius: 10px;">
+                    <i class="fa fa-telegram"></i> اشتراک‌گذاری
+                </a>
+
+                <!-- دکمه چاپ مقاله -->
+                <button onclick="window.print()"
+                        style="background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer;">
+                    <i class="fa fa-print"></i> چاپ مقاله
+                </button>
+
+                <!-- دکمه دانلود PDF (در صورت وجود) -->
+                {% if article.pdf_file %}
+                    <a href="{{ article.pdf_file.url }}" download
+                       style="text-decoration: none; background-color: #d9534f; color: white; padding: 10px 15px; border-radius: 10px;">
+                        <i class="fa fa-file-pdf-o"></i> دانلود PDF
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
