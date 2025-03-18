@@ -19,8 +19,6 @@ class New(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = "خبر"
-        verbose_name_plural = "اخبار"
         ordering = ['-created']
 
 
