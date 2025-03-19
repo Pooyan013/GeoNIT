@@ -1,0 +1,107 @@
+{% extends 'accounts/base.html'%}
+
+{% load static %}
+{% block content %}
+<div class="register-container">
+    <h2 class="form-title">ثبت نام</h2>
+    <form action="" method="post" class="register-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{form.first_name.label_tag}}
+            {{form.first_name}}
+        </div>
+        <div class="form-group">
+            {{form.last_name.label_tag}}
+            {{form.last_name}}
+        </div>
+        <div class="form-group">
+            {{form.email.label_tag}}
+            {{form.email}}
+        </div>
+        <div class="form-group">
+            {{form.username.label_tag}}
+            {{form.username}}
+        </div>
+        <div class="form-group">
+            {{form.password.label_tag}}
+            {{form.password}}
+        </div>
+        <div class="form-group">
+            {{form.confirm_password.label_tag}}
+            {{form.confirm_password}}
+        </div>
+        <div class="form-group">
+            {{form.uni_name.label_tag}}
+            {{form.uni_name}}
+        </div>
+        <div class="form-group">
+            {{form.facility_name.label_tag}}
+            {{form.facility_name}}
+        </div>
+        <button type="submit" class="btn-register">ثبت نام</button>
+    </form>
+    <style>
+        .register-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e6e6e6;
+        }
+
+        .form-title {
+            font-size: 28px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .register-form label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #34495e;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            background-color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .register-form input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-register:hover {
+            background-color: #2980b9;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+        }
+    </style>
+</div>
+{% endblock %}
