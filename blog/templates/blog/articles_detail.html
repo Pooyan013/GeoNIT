@@ -47,8 +47,8 @@
                 </button>
 
                 <!-- دکمه دانلود PDF (در صورت وجود) -->
-                {% if article.pdf_file %}
-                    <a href="{{ article.pdf_file.url }}" download
+                {% if article.pdf %}
+                    <a href="{{ article.pdf.url }}" download
                        style="text-decoration: none; background-color: #d9534f; color: white; padding: 10px 15px; border-radius: 10px;">
                         <i class="fa fa-file-pdf-o"></i> دانلود PDF
                     </a>
