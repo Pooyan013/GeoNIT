@@ -4,7 +4,7 @@ from .models import New , Article
 
 def home(request):
     latest_news = New.objects.all().order_by('-created')[:2]
-    latest_articles = Article.objects.all().order_by('-created_at')[:2]
+    latest_articles = Article.objects.all().order_by('-created_at')[:1]
     return render(request, 'blog/home.html', {'latest_news': latest_news , 'latest_articles': latest_articles})
 
 def geo_news(request):
