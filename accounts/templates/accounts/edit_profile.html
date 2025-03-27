@@ -1,9 +1,9 @@
 {% extends 'accounts/base.html' %}
 
-{% load static %}
 {% block content %}
-<div class="register-container" dir="rtl">
-    <h2 class="form-title">ثبت نام</h2>
+<h2 class="form-title">ویرایش اطلاعات کاربری</h2>
+<form method="post" class="edit-profile-form">
+    {% csrf_token %}
     <form action="" method="post" class="register-form">
         {% csrf_token %}
         <div class="form-group">
@@ -23,14 +23,6 @@
             {{form.username}}
         </div>
         <div class="form-group">
-            <label for="username">رمزعبور:</label>
-            {{form.password}}
-        </div>
-        <div class="form-group">
-            <label for="username">تایید رمزعبور:</label>
-            {{form.confirm_password}}
-        </div>
-        <div class="form-group">
             <label for="username">دانشگاه:</label>
             {{form.uni_name}}
         </div>
@@ -38,19 +30,37 @@
             <label for="facility">دانشکده:</label>
             {{form.facility_name}}
         </div>
-        <button type="submit" class="btn-register">ثبت نام</button>
+        <button type="submit" class="btn-save">ذخیره تغییرات</button>
     </form>
     <style>
-        .register-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e6e6e6;
-            direction: rtl;
+        .btn-save {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
         }
+
+        .btn-save:hover {
+            background-color: #2980b9;
+            box-shadow: 0 6px 15px rgba(41, 128, 185, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-save:active {
+            background-color: #1d6fa5;
+            box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+            transform: translateY(2px);
+        }
+
 
         .form-title {
             font-size: 28px;
@@ -59,11 +69,23 @@
             margin-bottom: 30px;
         }
 
-        .register-form .form-group {
+        .edit-profile-form {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e6e6e6;
+            direction: rtl;
+            /
+        }
+
+        .edit-profile-form .form-group {
             margin-bottom: 20px;
         }
 
-        .register-form label {
+        .edit-profile-form label {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 5px;
@@ -73,7 +95,8 @@
 
         }
 
-        .register-form input {
+        .edit-profile-form input,
+        .edit-profile-form select {
             width: 100%;
             padding: 10px;
             border-radius: 8px;
@@ -81,17 +104,16 @@
             font-size: 14px;
             background-color: #fff;
             transition: all 0.3s ease-in-out;
-            text-align: right;
-
         }
 
-        .register-form input:focus {
+        .edit-profile-form input:focus,
+        .edit-profile-form select:focus {
             border-color: #3498db;
             box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
             outline: none;
         }
 
-        .btn-register {
+        .btn-save {
             width: 100%;
             padding: 12px;
             background-color: #3498db;
@@ -103,10 +125,10 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .btn-register:hover {
+        .btn-save:hover {
             background-color: #2980b9;
             box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
         }
     </style>
-</div>
-{% endblock %}
+
+    {% endblock content %}

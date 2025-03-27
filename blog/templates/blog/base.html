@@ -81,16 +81,32 @@
                                 <li><a href="#">برنامه ریز</a></li>
                                 <li><a href="{% url 'shop_home' %}"
                                         class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
+
+                                {% if user.is_authenticated %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        پروفایل <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'password_change' %}">تغییر رمز عبور</a></li>
+                                        <li><a href="{% url 'edit_profile' %}">ویرایش اطلاعات</a></li>
+                                        <li><a href="{% url 'logout' %}">خروج</a></li>
+                                    </ul>
+                                </li>
+                                {% else %}
                                 <li><a href="{% url 'login' %}"
                                         class="{% if request.path == '/accounts/login/' %}active{% endif %}">ورود</a>
                                 </li>
                                 <li><a href="{% url 'register' %}"
                                         class="{% if request.path == '/accounts/register/' %}active{% endif %}">ثبت
                                         نام</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'home' %}"
                                         class="{% if request.path == '/' %}active{% endif %}">خانه</a></li>
                             </ul>
                         </nav>
+
                     </div>
                 </div>
             </div>

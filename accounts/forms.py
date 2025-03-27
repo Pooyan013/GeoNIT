@@ -1,5 +1,6 @@
 from django import forms
 from .models import Account
+from django.contrib.auth.models import User
 
 class RegisterationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -27,3 +28,9 @@ class RegisterationForm(forms.ModelForm):
 class LoginForm(forms.Form):
     email = forms.EmailField(max_length=200)
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'email', 'username', 'uni_name', 'facility_name']
