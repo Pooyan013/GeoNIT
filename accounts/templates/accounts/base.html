@@ -16,7 +16,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{% static 'blog/css/responsive.css' %}">
     <!-- fevicon -->
-    <link rel="icon" href="{% static 'blog/images/logo.png' %}" type="image/gif" />
+    <link rel="icon" href="{% static 'blog/images/logo.png' %}" type="image/gif"/>
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{% static 'blog/css/jquery.mCustomScrollbar.min.css' %}">
     <style>
@@ -50,42 +50,42 @@
 
 <body class="main-layout">
 
-    <header>
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-lg-3 logo_section">
-                    <div class="full">
-                        <div class="center-desk">
-                            <div class="logo" style="display: flex; align-items: center;">
-                                <a href="{% url 'home' %}">
-                                    <img src="{% static 'blog/images/logo.png' %}" alt="خانه"
-                                        style="width: 200px; height: 200px; margin-right: 20px;">
-                                </a>
-                                <a href="{% url 'home' %}">
-                                    <img src="{% static 'blog/images/logo_2.png' %}" alt="خانه"
-                                        style="width: 200px; height: 200px;">
-                                </a>
-                            </div>
+<header>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-3 logo_section">
+                <div class="full">
+                    <div class="center-desk">
+                        <div class="logo" style="display: flex; align-items: center;">
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'blog/images/logo.png' %}" alt="خانه"
+                                     style="width: 200px; height: 200px; margin-right: 20px;">
+                            </a>
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'blog/images/logo_2.png' %}" alt="خانه"
+                                     style="width: 200px; height: 200px;">
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="menu-area" style="display: flex; justify-content: flex-end;">
-                        <nav class="main-menu">
-                            <ul class="menu-area-main" style="display: flex; gap: 20px;">
-                                <li><a href="#">ارتباط با ما</a></li>
-                                <li><a href="{% url 'geo_news' %}"
-                                        class="{% if request.path == '/geo-news/' %}active{% endif %}">ژئو نیوز</a></li>
-                                <li><a href="{% url 'article' %}"
-                                        class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
-                                <li><a href="#">برنامه ریز</a></li>
-                                <li><a href="{% url 'shop_home' %}"
-                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
+            </div>
+            <div class="col-lg-9">
+                <div class="menu-area" style="display: flex; justify-content: flex-end;">
+                    <nav class="main-menu">
+                        <ul class="menu-area-main" style="display: flex; gap: 20px;">
+                            <li><a href="#">ارتباط با ما</a></li>
+                            <li><a href="{% url 'geo_news' %}"
+                                   class="{% if request.path == '/geo-news/' %}active{% endif %}">ژئو نیوز</a></li>
+                            <li><a href="{% url 'article' %}"
+                                   class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
+                            <li><a href="#">برنامه ریز</a></li>
+                            <li><a href="{% url 'shop_home' %}"
+                                   class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
 
-                                {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                        aria-haspopup="true" aria-expanded="false">
+                                       aria-haspopup="true" aria-expanded="false">
                                         پروفایل <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -94,83 +94,90 @@
                                         <li><a href="{% url 'logout' %}">خروج</a></li>
                                     </ul>
                                 </li>
-                                {% else %}
+                            {% else %}
                                 <li><a href="{% url 'login' %}"
-                                        class="{% if request.path == '/accounts/login/' %}active{% endif %}">ورود</a>
+                                       class="{% if request.path == '/accounts/login/' %}active{% endif %}">ورود</a>
                                 </li>
                                 <li><a href="{% url 'register' %}"
-                                        class="{% if request.path == '/accounts/register/' %}active{% endif %}">ثبت
-                                        نام</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'home' %}"
-                                        class="{% if request.path == '/' %}active{% endif %}">خانه</a></li>
-                            </ul>
-                        </nav>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- end header -->
-
-    {% block content %}
-    {% endblock %}
-
-    <!-- footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <a href="#"><img src="{% static 'blog/images/logo.png' %}" style="width: 120px; height: 120px;"
-                            alt="" /></a>
-                    <ul class="contact_information">
-                        <li><span><img src="{% static 'blog/images/location_icon.png' %}" alt="" /></span>
-                            <span class="text_cont"><a
-                                    href="https://maps.app.goo.gl/bSS87Kh5N4tWZJxX9"></span>بابل<br>خیابان
-                            شریعتی</span></a>
-                        </li>
-                    </ul>
-                    <ul class="social_icon">
-                        <li><a href="https://t.me/geomatic_nit"><i class="fa fa-telegram"></i></a></li>
-                        <li><a href="https://www.linkedin.com/company/geomatics-journal/"><i
-                                    class="fa fa-linkedin"></i></a></li>
-                        <li><a href="https://www.instagram.com/geomatic.nit/"><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6">
-                    <div class="footer_links">
-                        <h3>دسترسی سریع</h3>
-                        <ul>
-                            <li><a href="{% url 'home' %}"><i class="fa fa-angle-right"></i> خانه</a></li>
-                            <li><a href="{% url 'shop_home' %}"><i class="fa fa-angle-right"></i> فروشگاه</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i> برنامه ریز</a></li>
-                            <li><a href="{% url 'article' %}"><i class="fa fa-angle-right"></i> ژئو بلاگ</a></li>
-                            <li><a href="{% url 'geo_news' %}"><i class="fa fa-angle-right"></i> ژئو نیوز</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i> ارتباط با ما</a></li>
+                                       class="{% if request.path == '/accounts/register/' %}active{% endif %}">ثبت
+                                    نام</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'home' %}"
+                                   class="{% if request.path == '/' %}active{% endif %}">خانه</a></li>
                         </ul>
-                    </div>
-                </div>
-    </footer>
-    <div class="cpy">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>Copyright © 2025 Design by <a href="https://www.linkedin.com/in/hossein-ahmadi-61b403a4/">Hossein
-                            Ahmadi</a> and <a href="https://www.linkedin.com/in/mahyar-zakeri/">MahyarZakeri</a></p>
+                    </nav>
+
                 </div>
             </div>
         </div>
     </div>
+</header>
+<!-- end header -->
+
+{% block content %}
+{% endblock %}
+
+<!-- footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <a href="#"><img src="{% static 'blog/images/logo.png' %}" style="width: 120px; height: 120px;"
+                                 alt=""/></a>
+                <ul class="contact_information">
+                    <li>
+                        <span>
+                            <img src="{% static 'blog/images/location_icon.png' %}" alt=""/>
+                        </span>
+                        <span class="text_cont" style="color: #ffffff;">
+                            <a href="https://maps.app.goo.gl/bSS87Kh5N4tWZJxX9" style="color: #ffffff;">
+                                نشانی:<br> مــازنـدران، بابل، خیـابان شریعتــی، دانشـــگاه صنعتـــی نوشیروانـــی بابل
+                            </a>
+                        </span>
+                    </li>
+                </ul>
+                <ul class="social_icon">
+                    <li><a href="https://t.me/geomatic_nit"><i class="fa fa-telegram"></i></a></li>
+                    <li><a href="https://www.linkedin.com/company/geomatics-journal/"><i
+                            class="fa fa-linkedin"></i></a></li>
+                    <li><a href="https://www.instagram.com/geomatic.nit/"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="footer_links">
+                    <h3>دسترسی سریع</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}"><i class="fa fa-angle-right"></i> خانه</a></li>
+                        <li><a href="{% url 'shop_home' %}"><i class="fa fa-angle-right"></i> فروشگاه</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i> برنامه ریز</a></li>
+                        <li><a href="{% url 'article' %}"><i class="fa fa-angle-right"></i> ژئو بلاگ</a></li>
+                        <li><a href="{% url 'geo_news' %}"><i class="fa fa-angle-right"></i> ژئو نیوز</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i> ارتباط با ما</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="cpy">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Copyright © 2025 Design by <a href="https://www.linkedin.com/in/hossein-ahmadi-61b403a4/">Hossein
+                    Ahmadi</a> and <a href="https://www.linkedin.com/in/mahyar-zakeri/">Mahyar Zakeri</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script src="{% static 'blog/js/jquery.min.js' %}"></script>
-    <script src="{% static 'blog/js/popper.min.js' %}"></script>
-    <script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'blog/js/jquery-3.0.0.min.js' %}"></script>
-    <script src="{% static 'blog/js/plugin.js' %}"></script>
-    <script src="{% static 'blog/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-    <script src="{% static 'blog/js/custom.js' %}"></script>
+<script src="{% static 'blog/js/jquery.min.js' %}"></script>
+<script src="{% static 'blog/js/popper.min.js' %}"></script>
+<script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'blog/js/jquery-3.0.0.min.js' %}"></script>
+<script src="{% static 'blog/js/plugin.js' %}"></script>
+<script src="{% static 'blog/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'blog/js/custom.js' %}"></script>
 
 </body>
 

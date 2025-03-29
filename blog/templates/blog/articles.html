@@ -17,13 +17,34 @@
     <div class="container mt-5 text-center">
         <div class="row justify-content-center">
             {% for article in page_obj %}
-                <div class="col-md-5 article-item">
-                    <img src="{{ article.image1.url }}" alt="{{ article.title }}" style="width: 400px; height: 200px">
-                    <h3 class="article-title">{{ article.title }}</h3>
-                    <p class="article-author">نویسنده: {{ article.author }}</p>
-                    <small class="article-meta">منتشر شده در: {{ article.created_at|date:"F d, Y" }}</small>
-                    <p class="article-summary">{{ article.introduction}}</p>
-                    <a href="{% url 'article_detail' slug=article.slug %}" class="orange_color">... ادامه مقاله</a>
+                <div class="col-md-5 article-item" style="margin-bottom: 30px;">
+
+                    <!-- باکس تصویر -->
+                    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px;
+                                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); width: 100%; text-align: center;">
+                        <img src="{{ article.image1.url }}" alt="{{ article.title }}"
+                             style="width: 100%; height: auto; border-radius: 10px;">
+                    </div>
+
+                    <!-- باکس عنوان مقاله -->
+                    <div style="background-color: #f5f5f5; padding: 15px; border-radius: 10px;
+                                width: 100%; text-align: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); margin-top: 10px;">
+                        <h3 class="article-title" style="margin: 0; color: #333; text-align: center;">{{ article.title }}</h3>
+                    </div>
+
+                    <!-- نویسنده و تاریخ در پایین عنوان -->
+                    <p class="article-author" style="margin: 5px 0; font-size: 1rem; color: gray; text-align: center;">
+                        نویسنده: {{ article.author }}</p>
+
+                    <!-- خلاصه مقاله -->
+                    <p class="article-summary" style="text-align: justify; margin: 10px 0;">
+                        {{ article.introduction }}
+                    </p>
+
+                    <!-- لینک ادامه مقاله -->
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="{% url 'article_detail' slug=article.slug %}" class="orange_color">... ادامه مقاله</a>
+                    </div>
                 </div>
             {% empty %}
                 <p class="no-articles">هیچ مقاله‌ای موجود نیست.</p>
@@ -31,18 +52,35 @@
         </div>
     </div>
 
-    <!-- Pagination Links -->
-    <div style="text-align: center; margin-top: 20px;">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">اولین</a>
-            <a href="?page={{ page_obj.previous_page_number }}">قبلی</a>
-        {% endif %}
+    <!-- Pagination -->
+    <div style="text-align: center; margin-top: 20px; direction: rtl;">
+        <form method="post">
+            {% csrf_token %}
+            {% if page_obj.paginator.num_pages > 1 %}
+                {% if page_obj.has_previous %}
+                    <button type="submit" name="page" value="{{ page_obj.previous_page_number }}"
+                            style="background-color: #001f3f; color: white; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer; margin: 5px;">
+                        «
+                    </button>
+                {% endif %}
 
-        <span>صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span style="background-color: #004080; color: white; padding: 8px 12px; border-radius: 5px; margin: 5px; font-weight: bold;">{{ num }}</span>
+                    {% else %}
+                        <button type="submit" name="page" value="{{ num }}"
+                                style="background-color: #001f3f; color: white; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer; margin: 5px;">{{ num }}</button>
+                    {% endif %}
+                {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">بعدی</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">آخرین</a>
-        {% endif %}
+                {% if page_obj.has_next %}
+                    <button type="submit" name="page" value="{{ page_obj.next_page_number }}"
+                            style="background-color: #001f3f; color: white; padding: 8px 12px; border-radius: 5px; border: none; cursor: pointer; margin: 5px;">
+                        »
+                    </button>
+                {% endif %}
+            {% endif %}
+        </form>
     </div>
+
 {% endblock %}

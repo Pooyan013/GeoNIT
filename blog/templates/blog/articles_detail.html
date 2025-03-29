@@ -6,32 +6,22 @@
 
         <!-- بخش تصاویر -->
         <div style="width: 50%; display: flex; flex-direction: column; align-items: center;">
-            {% if article.image1 %}
-                <img src="{{ article.image1.url }}" alt="{{ article.title }}"
-                     style="width: 400px; height: 250px; border-radius: 10px; margin-bottom: 10px;">
-            {% endif %}
-            {% if article.image2 %}
-                <img src="{{ article.image2.url }}" alt="{{ article.title }}"
-                     style="width: 400px; height: 250px; border-radius: 10px;">
-            {% endif %}
-        </div>
 
-        <!-- بخش متن مقاله -->
-        <div style="width: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <h2>{{ article.title }}</h2>
-            <small style="color: gray;">نویسنده: {{ article.author }} | تاریخ
-                انتشار: {{ article.created_at|date:"Y/m/d" }}</small>
-
-            <div style="width: 80%; text-align: justify; margin-top: 10px;">
-                <h3 style="text-align: center;">مقدمه</h3>
-                <p>{{ article.introduction }}</p>
-
-                <h3 style="text-align: center;">متن مقاله</h3>
-                <p>{{ article.body }}</p>
+            <!-- باکس تصاویر -->
+            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 10px;
+                        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); width: 420px; text-align: center;">
+                {% if article.image1 %}
+                    <img src="{{ article.image1.url }}" alt="{{ article.title }}"
+                         style="width: 400px; height: 250px; border-radius: 10px; margin-bottom: 10px;">
+                {% endif %}
+                {% if article.image2 %}
+                    <img src="{{ article.image2.url }}" alt="{{ article.title }}"
+                         style="width: 400px; height: 250px; border-radius: 10px;">
+                {% endif %}
             </div>
 
-            <!-- دکمه‌های عملیات -->
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <!-- دکمه‌های عملیات زیر تصاویر -->
+            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
 
                 <!-- دکمه اشتراک‌گذاری تلگرام -->
                 <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}"
@@ -55,8 +45,39 @@
                 {% endif %}
 
             </div>
+        </div>
 
+        <!-- بخش متن مقاله -->
+        <div style="width: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+            <!-- باکس عنوان مقاله -->
+            <div style="background-color: #f5f5f5; padding: 15px; border-radius: 10px; width: 80%; text-align: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+                <h2 style="margin: 0; color: #333; text-align: center;">{{ article.title }}</h2>
+            </div>
+
+            <small style="color: gray; margin-top: 10px;">نویسنده: {{ article.author }} | تاریخ
+                انتشار: {{ article.created_at|date:"Y/m/d" }}</small>
+
+            <div style="width: 80%; text-align: justify; margin-top: 20px; line-height: 1.8;">
+                <h3 style="text-align: right;">: شرح</h3>
+                <hr style="border: none; border-top: 2px solid #ddd; margin-bottom: 10px;">
+                <p style="text-align: justify; margin: 0;">{{ article.introduction }}</p>
+
+                <h3 style="text-align: right; margin-top: 30px;">: متن مقاله</h3>
+                <hr style="border: none; border-top: 2px solid #ddd; margin-bottom: 10px;">
+                <p style="text-align: justify; margin: 0;">{{ article.body }}</p>
+
+                <!-- آخرین تصویر مقاله -->
+                {% if article.images.all %}
+                    <img src="{{ article.images.last.image.url }}" alt="تصویر مقاله"
+                         style="width: 100%; margin-top: 20px; border-radius: 10px;">
+                {% endif %}
+            </div>
         </div>
 
     </div>
+
+    <!-- افزودن فضای بازتر در انتهای صفحه -->
+    <div style="height: 30px;"></div>
+
 {% endblock %}
