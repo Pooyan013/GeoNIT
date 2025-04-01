@@ -16,9 +16,12 @@ def register(request):
             user = form.save()
             auth_login(request, user)
             messages.success(request, 'با موفقیت ثبت نام شدید و وارد حساب کاربری خود شدید!')
-            return redirect('home')
+
+            return redirect('home')  
+
         else:
             messages.error(request, 'ثبت نام ناموفق. لطفاً اطلاعات را بررسی کنید.')
+
     else:
         form = RegisterationForm()
 
