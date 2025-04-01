@@ -4,42 +4,52 @@
 {% block content %}
 <div class="register-container" dir="rtl">
     <h2 class="form-title">ثبت نام</h2>
+
+    {% if messages %}
+    <div class="alert">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <form action="" method="post" class="register-form">
         {% csrf_token %}
         <div class="form-group">
             <label for="first_name">نام:</label>
-            {{form.first_name}}
+            {{ form.first_name }}
         </div>
         <div class="form-group">
             <label for="last_name">نام خانوادگی:</label>
-            {{form.last_name}}
+            {{ form.last_name }}
         </div>
         <div class="form-group">
             <label for="email">ایمیل:</label>
-            {{form.email}}
+            {{ form.email }}
         </div>
         <div class="form-group">
             <label for="username">نام کاربری:</label>
-            {{form.username}}
+            {{ form.username }}
         </div>
         <div class="form-group">
-            <label for="username">رمزعبور:</label>
-            {{form.password}}
+            <label for="password">رمز عبور:</label>
+            {{ form.password }}
         </div>
         <div class="form-group">
-            <label for="username">تایید رمزعبور:</label>
-            {{form.confirm_password}}
+            <label for="confirm_password">تایید رمز عبور:</label>
+            {{ form.confirm_password }}
         </div>
         <div class="form-group">
-            <label for="username">دانشگاه:</label>
-            {{form.uni_name}}
+            <label for="uni_name">دانشگاه:</label>
+            {{ form.uni_name }}
         </div>
         <div class="form-group">
-            <label for="facility">دانشکده:</label>
-            {{form.facility_name}}
+            <label for="facility_name">دانشکده:</label>
+            {{ form.facility_name }}
         </div>
         <button type="submit" class="btn-register">ثبت نام</button>
     </form>
+
     <style>
         .register-container {
             max-width: 600px;
@@ -70,7 +80,6 @@
             display: block;
             color: #34495e;
             text-align: right;
-
         }
 
         .register-form input {
@@ -82,7 +91,6 @@
             background-color: #fff;
             transition: all 0.3s ease-in-out;
             text-align: right;
-
         }
 
         .register-form input:focus {
@@ -106,6 +114,15 @@
         .btn-register:hover {
             background-color: #2980b9;
             box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            color: #2c3e50;
+            border: 1px solid #e6e6e6;
+            border-radius: 5px;
         }
     </style>
 </div>

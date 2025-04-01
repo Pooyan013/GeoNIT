@@ -1,0 +1,36 @@
+{% extends 'shop/base.html' %}
+
+{% load jalali_filters %}
+<h2>سبد خرید شما</h2>
+
+{% if cart_items %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>محصول</th>
+            <th>تعداد</th>
+            <th>قیمت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price|floatformat:2 }} تومان</td>
+            <td>
+                <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">حذف</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h4>مجموع: {{ total_price|floatformat:2 }} تومان</h4>
+{% else %}
+<p>سبد خرید شما خالی است.</p>
+{% endif %}
+{% endblock %}

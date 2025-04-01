@@ -1,14 +1,22 @@
-{% extends "shop/base.html" %}
-{% load static %}
+{% extends 'shop/base.html' %}
 
 {% block content %}
-{% for product in products %}
-<div class="product">
-    <a href="{% url 'shop:product' product.id %}">
-        <img src="{% static 'shop/img/' %}{{ product.image }}" alt="{{ product.name }}">
-    </a>
-    <a href="{% url 'shop:product' product.id %}">{{ product.name }}</a>
-    <p>{{ product.price }}$</p>
+<h1 class="text-center">فروشگاه</h1>
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ product.images.url }}" class="card-img-top" alt="{{ product.product_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">{{ product.product_description|truncatechars:50 }}</p>
+                    <p><strong>قیمت:</strong> {{ product.price }} تومان</p>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary">مشاهده محصول</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
-{% endblock content %}
+{% endblock %}

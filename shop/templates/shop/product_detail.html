@@ -1,0 +1,34 @@
+{% load static %}
+{% load jalali_filters %}
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات محصول</title>
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2>{{ product.product_name }}</h2>
+                <p><strong>دسته‌بندی:</strong> <a href="{{ product.category.get_absolute_url }}">{{
+                        product.category.category_name }}</a></p>
+                <p><strong>توضیحات:</strong> {{ product.product_description }}</p>
+                <p><strong>قیمت:</strong> {{ product.price }} تومان</p>
+                <p><strong>وضعیت موجودی:</strong> {% if product.is_available %} موجود {% else %} ناموجود {% endif %}</p>
+                <p><strong>تاریخ ایجاد:</strong> {{ product.created_date }}</p>
+            </div>
+        </div>
+        <a href="{{ product.category.get_absolute_url }}" class="btn btn-primary mt-3">بازگشت به دسته‌بندی</a>
+    </div>
+</body>
+
+</html>

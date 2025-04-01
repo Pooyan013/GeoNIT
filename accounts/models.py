@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django_jalali.db import models as jmodels  
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, first_name, last_name, username, email, password=None):
@@ -13,7 +14,6 @@ class MyAccountManager(BaseUserManager):
             username=username,
             first_name=first_name,
             last_name=last_name,
-
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -43,8 +43,8 @@ class Account(AbstractBaseUser):
     uni_name = models.CharField(max_length=50, blank=True, null=True)
     facility_name = models.CharField(max_length=50, blank=True, null=True)
 
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True)
+    date_joined = jmodels.jDateTimeField(auto_now_add=True) 
+    last_login = jmodels.jDateTimeField(auto_now=True)  
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -63,3 +63,6 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self, add_label):
         return True
+
+    def get_jalali_date_joined(self):
+        return self.date_joined.strftime('%Y/%m/%d')  
