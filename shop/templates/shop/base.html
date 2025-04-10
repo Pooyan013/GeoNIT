@@ -5,7 +5,7 @@
 <html lang="fa">
 
 <head>
-    <meta charset="utf-8" dir="rtl">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>GeoNit</title>
@@ -21,10 +21,17 @@
     <link rel="icon" href="{% static 'blog/images/logo.png' %}" type="image/gif" />
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{% static 'blog/css/jquery.mCustomScrollbar.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
+
     <style>
         .menu-area-main a {
             color: white;
             text-decoration: none;
+        }
+
+        body {
+            font-family: 'Vazir', sans-serif;
         }
 
         .menu-area-main a.active {
@@ -117,8 +124,8 @@
     <!-- end header -->
 
     {% block content %}
-    {% load jalali_filters %}
-    <p>تاریخ ایجاد: {{ product.created_date|to_jalali }}</p>
+
+
 
     {% endblock %}
 
@@ -136,7 +143,7 @@
                             </span>
                             <span class="text_cont" style="color: #ffffff;">
                                 <a href="https://maps.app.goo.gl/bSS87Kh5N4tWZJxX9" style="color: #ffffff;">
-                                    نشانی:<br> مــازنـدران، بابل، خیـابان شریعتــی، دانشـــگاه صنعتـــی نوشیروانـــی
+                                    :نشانی<br> مــازنـدران، بابل، خیـابان شریعتــی، دانشـــگاه صنعتـــی نوشیروانـــی
                                     بابل
                                 </a>
                             </span>
