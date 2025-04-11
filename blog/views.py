@@ -35,3 +35,7 @@ def article_list(request):
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     return render(request, "blog/articles_detail.html", {"article": article})
+
+
+def about_us(request):
+    return render(request, 'blog/about_us.html')

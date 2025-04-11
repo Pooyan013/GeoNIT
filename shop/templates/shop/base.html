@@ -18,11 +18,11 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{% static 'blog/css/responsive.css' %}">
     <!-- fevicon -->
-    <link rel="icon" href="{% static 'blog/images/logo.png' %}" type="image/gif" />
+    <link rel="icon" href="{% static 'blog/images/logo.png' %}" type="image/gif"/>
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{% static 'blog/css/jquery.mCustomScrollbar.min.css' %}">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet"
-        type="text/css" />
+          type="text/css"/>
 
     <style>
         .menu-area-main a {
@@ -59,42 +59,43 @@
 
 <body class="main-layout">
 
-    <header>
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-lg-3 logo_section">
-                    <div class="full">
-                        <div class="center-desk">
-                            <div class="logo" style="display: flex; align-items: center;">
-                                <a href="{% url 'home' %}">
-                                    <img src="{% static 'blog/images/logo.png' %}" alt="خانه"
-                                        style="width: 200px; height: 200px; margin-right: 20px;">
-                                </a>
-                                <a href="{% url 'home' %}">
-                                    <img src="{% static 'blog/images/logo_2.png' %}" alt="خانه"
-                                        style="width: 200px; height: 200px;">
-                                </a>
-                            </div>
+<header>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-3 logo_section">
+                <div class="full">
+                    <div class="center-desk">
+                        <div class="logo" style="display: flex; align-items: center;">
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'blog/images/logo.png' %}" alt="خانه"
+                                     style="width: 200px; height: 200px; margin-right: 20px;">
+                            </a>
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'blog/images/logo_2.png' %}" alt="خانه"
+                                     style="width: 200px; height: 200px;">
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="menu-area" style="display: flex; justify-content: flex-end;">
-                        <nav class="main-menu">
-                            <ul class="menu-area-main" style="display: flex; gap: 20px;">
-                                <li><a href="#">ارتباط با ما</a></li>
-                                <li><a href="{% url 'geo_news' %}"
-                                        class="{% if request.path == '/geo-news/' %}active{% endif %}">ژئو نیوز</a></li>
-                                <li><a href="{% url 'article' %}"
-                                        class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
-                                <li><a href="#">برنامه ریز</a></li>
-                                <li><a href="{% url 'shop_home' %}"
-                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
+            </div>
+            <div class="col-lg-9">
+                <div class="menu-area" style="display: flex; justify-content: flex-end;">
+                    <nav class="main-menu">
+                        <ul class="menu-area-main" style="display: flex; gap: 20px;">
+                            <li><a href="{% url 'about_us' %}"
+                                   class="{% if request.path == '/about_us/' %}active{% endif %}">درباره ما </a></li>
+                            <li><a href="{% url 'geo_news' %}"
+                                   class="{% if request.path == '/geo-news/' %}active{% endif %}">ژئو نیوز</a></li>
+                            <li><a href="{% url 'article' %}"
+                                   class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
+                            <li><a href="#">برنامه ریز</a></li>
+                            <li><a href="{% url 'shop_home' %}"
+                                   class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
 
-                                {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                        aria-haspopup="true" aria-expanded="false">
+                                       aria-haspopup="true" aria-expanded="false">
                                         پروفایل <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -103,106 +104,118 @@
                                         <li><a href="{% url 'logout' %}">خروج</a></li>
                                     </ul>
                                 </li>
-                                {% else %}
+                            {% else %}
                                 <li><a href="{% url 'login' %}"
-                                        class="{% if request.path == '/accounts/login/' %}active{% endif %}">ورود</a>
+                                       class="{% if request.path == '/accounts/login/' %}active{% endif %}">ورود</a>
                                 </li>
                                 <li><a href="{% url 'register' %}"
-                                        class="{% if request.path == '/accounts/register/' %}active{% endif %}">ثبت
-                                        نام</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'home' %}"
-                                        class="{% if request.path == '/' %}active{% endif %}">خانه</a></li>
-                            </ul>
-                        </nav>
+                                       class="{% if request.path == '/accounts/register/' %}active{% endif %}">ثبت
+                                    نام</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'home' %}"
+                                   class="{% if request.path == '/' %}active{% endif %}">خانه</a></li>
+                        </ul>
+                    </nav>
 
-                    </div>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- end header -->
+    </div>
+</header>
+<!-- end header -->
 
-    {% block content %}
+{% block content %}
 
 
 
-    {% endblock %}
+{% endblock %}
 
-    <!-- footer -->
-    <footer>
-        <div class="container">
-            <div class="row d-flex align-items-start justify-content-between" style="text-align: right;">
-                <!-- بخش آدرس و شبکه‌های اجتماعی -->
-                <div class="col-lg-3 col-md-6">
-                    <a href="#"><img src="{% static 'blog/images/logo.png' %}" style="width: 100px; height: 100px;"
-                            alt="" /></a>
-                    <ul class="contact_information" style="padding-right: 0;">
-                        <li>
-                            <span>
-                                <img src="{% static 'blog/images/location_icon.png' %}" alt="" />
-                            </span>
-                            <span class="text_cont" style="color: #ffffff;">
-                                <a href="https://maps.app.goo.gl/bSS87Kh5N4tWZJxX9" style="color: #ffffff;">
-                                    :نشانی<br> مــازنـدران، بابل، خیـابان شریعتــی، دانشـــگاه صنعتـــی نوشیروانـــی
-                                    بابل
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="social_icon">
-                        <li><a href="https://t.me/geomatic_nit"><i class="fa fa-telegram"></i></a></li>
-                        <li><a href="https://www.linkedin.com/company/geomatics-journal/"><i
-                                    class="fa fa-linkedin"></i></a></li>
-                        <li><a href="https://www.instagram.com/geomatic.nit/"><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div>
+<!-- footer -->
+<footer>
+    <div class="container">
+        <div class="row d-flex align-items-start justify-content-between" style="text-align: right;">
+            <!-- بخش آدرس و شبکه‌های اجتماعی -->
+            <div class="col-lg-3 col-md-6">
+                <a href="#"><img src="{% static 'blog/images/logo.png' %}" style="width: 100px; height: 100px;"
+                                 alt=""/></a>
+                <a href="#"><img src="{% static 'blog/images/logo_3.png' %}" style="width: 150px; height: 150px;"
+                                 alt=""/></a>
+                <ul class="contact_information" style="padding-right: 0; text-align: center;">
+                    <li>
+                        <div style="display: inline-flex; align-items: flex-start; direction: rtl; text-align: right;">
+                            <img src="{% static 'blog/images/location_icon.png' %}" alt=""
+                                 style="margin-left: 8px; margin-top: 2px;"/>
+                            <a href="https://maps.app.goo.gl/bSS87Kh5N4tWZJxX9"
+                               style="color: #ffffff; text-decoration: none;">
+                                نشانی:<br>مــازنـدران، بابل، خیـابان شریعتــی، دانشـــگاه صنعتـــی نوشیروانـــی بابل
+                            </a>
+                        </div>
+                    </li>
+                </ul>
 
-                <!-- بخش نقشه -->
-                <div class="col-lg-6 col-md-12 d-flex justify-content-center">
-                    <iframe
+                <!-- آیکون‌های شبکه اجتماعی با تراز وسط -->
+                <ul class="social_icon" style="margin-left: 8px; margin-top: 10px;">
+                    <li style="display: inline-block; margin-left: 75px; margin-top: 2px">
+                        <a href="https://t.me/geomatic_nit"><i class="fa fa-telegram"></i></a>
+                    </li>
+                    <li style="display: inline-block; margin: 0 5px;">
+                        <a href="https://www.linkedin.com/company/geomatics-journal/"><i class="fa fa-linkedin"></i></a>
+                    </li>
+                    <li style="display: inline-block; margin: 0 5px;">
+                        <a href="https://www.instagram.com/geomatic.nit/"><i class="fa fa-instagram"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- بخش نقشه -->
+            <div class="col-lg-6 col-md-12 d-flex justify-content-center">
+                <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.7082986782475!2d52.683151824909174!3d36.561145781139835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8f88155391a6cb%3A0x381087fd25f45508!2z2K_Yp9mG2LTar9in2Ycg2LXZhti52KrbjCDZhtmI2LTbjNix2YjYp9mG24wg2KjYp9io2YQ!5e0!3m2!1sfa!2sse!4v1744318835778!5m2!1sfa!2sse"
                         width="100%" height="300" style="border:0; border-radius: 10px;" allowfullscreen=""
                         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
+            </div>
 
-                <!-- بخش لینک‌ها -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer_links">
-                        <h3>دسترسی سریع</h3>
-                        <ul>
-                            <li><a href="{% url 'home' %}"><i class="fa fa-angle-right"></i> خانه</a></li>
-                            <li><a href="{% url 'shop_home' %}"><i class="fa fa-angle-right"></i> فروشگاه</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i> برنامه ریز</a></li>
-                            <li><a href="{% url 'article' %}"><i class="fa fa-angle-right"></i> ژئو بلاگ</a></li>
-                            <li><a href="{% url 'geo_news' %}"><i class="fa fa-angle-right"></i> ژئو نیوز</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i> ارتباط با ما</a></li>
-                        </ul>
-                    </div>
+            <!-- بخش لینک‌ها -->
+            <div class="col-lg-3 col-md-6">
+                <div class="footer_links" dir="rtl">
+                    <h3>دسترسی سریع</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}"><i class="fa fa-angle-left"></i> خانه</a></li>
+                        <li><a href="{% url 'shop_home' %}"><i class="fa fa-angle-left"></i> فروشگاه</a></li>
+                        <li><a href="#"><i class="fa fa-angle-left"></i> برنامه ریز</a></li>
+                        <li><a href="{% url 'article' %}"><i class="fa fa-angle-left"></i> ژئو بلاگ</a></li>
+                        <li><a href="{% url 'geo_news' %}"><i class="fa fa-angle-left"></i> ژئو نیوز</a></li>
+                        <li><a href="{% url 'about_us' %}"><i class="fa fa-angle-left"></i> درباره ما</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </footer>
-
-
-    <div class="cpy">
-        <div class="container">
-            <div class="row">
-                <p>Copyright © 2025 Design by <a href="https://www.linkedin.com/in/hossein-ahmadi-61b403a4/">Hossein
-                        Ahmadi</a> and <a href="https://www.linkedin.com/in/mahyar-zakeri/">Mahyar Zakeri</a></p>
-            </div>
-        </div>
     </div>
+</footer>
+
+
+<div class="cpy" style=" padding: 15px 0;">
+    <div class="container" style="text-align: center;">
+        <p style="margin: 0;">
+            Copyright © 2025 Design by
+            <a href="https://www.linkedin.com/in/hossein-ahmadi-61b403a4/"
+               style="color: cornflowerblue; text-decoration: underline;">Hossein Ahmadi</a>
+            and
+            <a href="https://www.linkedin.com/in/mahyar-zakeri/" style="color: cornflowerblue; text-decoration: underline;">Mahyar
+                Zakeri</a>
+        </p>
     </div>
+</div>
+</div>
 
 
-    <script src="{% static 'blog/js/jquery.min.js' %}"></script>
-    <script src="{% static 'blog/js/popper.min.js' %}"></script>
-    <script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'blog/js/jquery-3.0.0.min.js' %}"></script>
-    <script src="{% static 'blog/js/plugin.js' %}"></script>
-    <script src="{% static 'blog/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-    <script src="{% static 'blog/js/custom.js' %}"></script>
+<script src="{% static 'blog/js/jquery.min.js' %}"></script>
+<script src="{% static 'blog/js/popper.min.js' %}"></script>
+<script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'blog/js/jquery-3.0.0.min.js' %}"></script>
+<script src="{% static 'blog/js/plugin.js' %}"></script>
+<script src="{% static 'blog/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'blog/js/custom.js' %}"></script>
 
 </body>
 
