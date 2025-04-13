@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "shop",
     "accounts",
     'django_jalali',
+    "planner",
 
 ]
 
