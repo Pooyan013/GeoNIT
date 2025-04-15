@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "accounts",
     'django_jalali',
     "planner",
+    'rest_framework',
 
 ]
 

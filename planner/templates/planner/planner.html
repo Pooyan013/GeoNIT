@@ -15,7 +15,6 @@
             justify-content: center;
         }
 
-        /* فرم سمت راست */
         form {
             width: 400px;
             background: white;
@@ -72,7 +71,6 @@
             background-color: #2563eb;
         }
 
-        /* جدول سمت چپ */
         .schedule-box {
             width: 700px;
             background: white;
@@ -109,13 +107,13 @@
 
 <body>
 
-    <!-- فرم افزودن درس -->
-    <form id="course-form" action="/add-course/" method="POST">
-        <label for="name">نام درس</label>
-        <input type="text" id="name" name="name" required>
+    <form id="course-form" action="/planner/add-course/" method="POST">
+        {% csrf_token %}
+        <label for="course_name">نام درس</label>
+        <input type="text" id="course_name" name="course_name" required>
 
-        <label for="unit">تعداد واحد</label>
-        <select id="unit" name="unit" onchange="updateTimeFields()" required>
+        <label for="units">تعداد واحد</label>
+        <select id="units" name="units" onchange="updateTimeFields()" required>
             <option value="">انتخاب کنید</option>
             <option value="1">۱ واحد</option>
             <option value="2">۲ واحد</option>
@@ -124,18 +122,17 @@
 
         <div id="time-fields"></div>
 
-        <label for="exam-date">تاریخ امتحان</label>
-        <input type="date" id="exam-date" name="exam_date" required>
+        <label for="exam_date">تاریخ امتحان</label>
+        <input type="date" id="exam_date" name="exam_date" required>
 
-        <label for="exam-time">ساعت امتحان</label>
-        <input type="time" id="exam-time" name="exam_time" required>
+        <label for="exam_time">ساعت امتحان</label>
+        <input type="time" id="exam_time" name="exam_time" required>
 
-        <button type="submit">افزودن درس</button>
+        <button type="button" onclick="addCourse(event)">افزودن درس</button>
     </form>
 
-    <!-- جدول برنامه کلاسی -->
     <div class="schedule-box">
-        <table>
+        <table id="courses-table">
             <thead>
                 <tr>
                     <th>روز / ساعت</th>
@@ -157,49 +154,14 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td class="day-header">یکشنبه</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="day-header">دوشنبه</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="day-header">سه‌شنبه</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="day-header">چهارشنبه</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <!-- Other rows for days -->
             </tbody>
         </table>
     </div>
 
     <script>
         function updateTimeFields() {
-            const unit = parseInt(document.getElementById("unit").value);
+            const unit = parseInt(document.getElementById("units").value);
             const timeFieldsContainer = document.getElementById("time-fields");
 
             timeFieldsContainer.innerHTML = '';
@@ -214,31 +176,66 @@
                 daySelect.name = `day${i}`;
                 daySelect.required = true;
                 daySelect.innerHTML = `
-      <option value="">انتخاب روز</option>
-      <option value="شنبه">شنبه</option>
-      <option value="یکشنبه">یکشنبه</option>
-      <option value="دوشنبه">دوشنبه</option>
-      <option value="سه‌شنبه">سه‌شنبه</option>
-      <option value="چهارشنبه">چهارشنبه</option>
-    `;
+                    <option value="">انتخاب روز</option>
+                    <option value="شنبه">شنبه</option>
+                    <option value="یکشنبه">یکشنبه</option>
+                    <option value="دوشنبه">دوشنبه</option>
+                    <option value="سه‌شنبه">سه‌شنبه</option>
+                    <option value="چهارشنبه">چهارشنبه</option>
+                `;
 
                 const timeSelect = document.createElement("select");
                 timeSelect.name = `time${i}`;
                 timeSelect.required = true;
                 timeSelect.innerHTML = `
-      <option value="">انتخاب ساعت</option>
-      <option value="08:00">08:00 - 09:30</option>
-      <option value="09:30">09:30 - 11:00</option>
-      <option value="13:30">13:30 - 15:00</option>
-      <option value="15:00">15:00 - 16:30</option>
-      <option value="16:30">16:30 - 18:00</option>
-      <option value="18:00">18:00 - 19:30</option>
-    `;
+                    <option value="">انتخاب ساعت</option>
+                    <option value="08:00">08:00 - 09:30</option>
+                    <option value="09:30">09:30 - 11:00</option>
+                    <option value="13:30">13:30 - 15:00</option>
+                    <option value="15:00">15:00 - 16:30</option>
+                    <option value="16:30">16:30 - 18:00</option>
+                    <option value="18:00">18:00 - 19:30</option>
+                `;
 
                 block.appendChild(daySelect);
                 block.appendChild(timeSelect);
                 timeFieldsContainer.appendChild(block);
             }
+        }
+
+        function addCourse(event) {
+            event.preventDefault();
+
+            const courseData = new FormData(document.getElementById("course-form"));
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch('/planner/add-course/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                body: courseData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        updateTable(data);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateTable(course) {
+            const table = document.getElementById("courses-table");
+            const row = table.insertRow();
+            row.insertCell(0).textContent = course.course_name;
+            row.insertCell(1).textContent = course.units;
+            row.insertCell(2).textContent = course.days.join(', ');
+            row.insertCell(3).textContent = course.times.join(', ');
+            row.insertCell(4).textContent = course.exam_date;
+            row.insertCell(5).textContent = course.exam_time;
         }
     </script>
 
