@@ -3,303 +3,143 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>برنامه‌ریز درسی</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mobiscroll/javascript@5.7.2/css/mobiscroll.min.css" />
+    <title>افزودن درس</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Vazirmatn, sans-serif;
             direction: rtl;
-            background-color: #f4f4f4;
+            padding: 2rem;
+            background-color: #f0f4f8;
         }
 
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            text-align: center;
+        label {
+            font-weight: bold;
+            margin-top: 1rem;
+            display: block;
         }
 
-        .form-container {
-            margin-bottom: 20px;
-        }
-
-        .form-container input,
-        .form-container select {
-            width: 200px;
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .form-container button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            margin-right: 10px;
-        }
-
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        #extra-sessions-container {
-            display: none;
-        }
-
-        .jalali-datepicker {
-            width: 200px;
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ddd;
-        }
-
-        table {
+        select,
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        button {
             width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
+            padding: 0.6rem;
+            margin-top: 0.3rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            font-size: 1rem;
         }
 
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
+        .time-block {
+            margin-top: 1rem;
+            background-color: #eef2f7;
+            padding: 1rem;
+            border-radius: 0.75rem;
         }
 
-        th,
-        td {
-            padding: 10px;
-            text-align: center;
+        .time-block select {
+            width: 48%;
+            display: inline-block;
+            margin-top: 0.5rem;
         }
 
-        th {
-            background-color: #f4f4f4;
+        .time-block select:first-child {
+            margin-left: 4%;
         }
 
-        td.empty {
-            background-color: #f9f9f9;
+        button {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>برنامه‌ریز درسی</h1>
+    <form id="course-form" action="/add-course/" method="POST">
+        <label for="name">نام درس</label>
+        <input type="text" id="name" name="name" required>
 
-        <!-- فرم اضافه کردن درس -->
-        <div class="form-container">
-            <form method="POST" id="lesson-form">
-                {% csrf_token %}
+        <label for="unit">تعداد واحد</label>
+        <select id="unit" name="unit" onchange="updateTimeFields()" required>
+            <option value="">انتخاب کنید</option>
+            <option value="1">۱ واحد</option>
+            <option value="2">۲ واحد</option>
+            <option value="3">۳ واحد</option>
+        </select>
 
-                <!-- انتخاب نام درس -->
-                <div class="form-group">
-                    <label for="course_name" class="label">نام درس:</label>
-                    <input type="text" name="course_name" id="course_name" required>
-                </div>
+        <div id="time-fields"></div>
 
-                <!-- انتخاب تعداد واحد -->
-                <div class="form-group">
-                    <label for="credit_hours" class="label">تعداد واحد:</label>
-                    <select name="credit_hours" id="credit_hours" required onchange="handleCreditSelection()">
-                        <option value="2">2 واحد</option>
-                        <option value="3">3 واحد</option>
-                        <option value="4">4 واحد</option>
-                    </select>
-                </div>
+        <!-- تاریخ امتحان -->
+        <label for="exam-date">تاریخ امتحان</label>
+        <input type="date" id="exam-date" name="exam_date" required>
 
-                <!-- فرم انتخاب دو جلسه در صورت انتخاب درس سه واحدی -->
-                <div id="extra-sessions-container">
-                    <div class="form-group">
-                        <label for="first_class_day" class="label">روز اول:</label>
-                        <select name="first_class_day" id="first_class_day" required>
-                            <option value="saturday">شنبه</option>
-                            <option value="sunday">یکشنبه</option>
-                            <option value="monday">دوشنبه</option>
-                            <option value="tuesday">سه‌شنبه</option>
-                            <option value="wednesday">چهارشنبه</option>
-                        </select>
-                    </div>
+        <!-- ساعت امتحان -->
+        <label for="exam-time">ساعت امتحان</label>
+        <input type="time" id="exam-time" name="exam_time" required>
 
-                    <div class="form-group">
-                        <label for="first_class_time" class="label">زمان کلاس اول:</label>
-                        <select name="first_class_time" id="first_class_time" required>
-                            <option value="8-10">۸:۰۰ - ۱۰:۰۰</option>
-                            <option value="10-12">۱۰:۰۰ - ۱۲:۰۰</option>
-                            <option value="12-14">۱۲:۰۰ - ۱۴:۰۰</option>
-                        </select>
-                    </div>
+        <button type="submit">افزودن درس</button>
+    </form>
 
-                    <div class="form-group">
-                        <label for="second_class_day" class="label">روز دوم:</label>
-                        <select name="second_class_day" id="second_class_day" required>
-                            <option value="saturday">شنبه</option>
-                            <option value="sunday">یکشنبه</option>
-                            <option value="monday">دوشنبه</option>
-                            <option value="tuesday">سه‌شنبه</option>
-                            <option value="wednesday">چهارشنبه</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="second_class_time" class="label">زمان کلاس دوم:</label>
-                        <select name="second_class_time" id="second_class_time" required>
-                            <option value="8-10">۸:۰۰ - ۱۰:۰۰</option>
-                            <option value="10-12">۱۰:۰۰ - ۱۲:۰۰</option>
-                            <option value="12-14">۱۲:۰۰ - ۱۴:۰۰</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- انتخاب تاریخ امتحان -->
-                <div class="form-group">
-                    <label for="exam_date" class="label">تاریخ امتحان:</label>
-                    <input type="text" name="exam_date" id="exam_date" class="jalali-datepicker" required>
-                </div>
-
-                <button type="submit">اضافه کردن درس</button>
-            </form>
-        </div>
-
-        <!-- جدول برنامه درسی -->
-        <h2>جدول برنامه درسی</h2>
-        <table id="schedule-table">
-            <thead>
-                <tr>
-                    <th>روز</th>
-                    <th>کلاس 1</th>
-                    <th>کلاس 2</th>
-                    <th>تاریخ امتحان</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>شنبه</td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                </tr>
-                <tr>
-                    <td>یکشنبه</td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                </tr>
-                <tr>
-                    <td>دوشنبه</td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                </tr>
-                <tr>
-                    <td>سه‌شنبه</td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                </tr>
-                <tr>
-                    <td>چهارشنبه</td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                    <td class="empty"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- پیام خطا -->
-        <div class="error-message" id="error-message"></div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@mobiscroll/javascript@5.7.2/js/mobiscroll.min.js"></script>
     <script>
-        // نمایش و پنهان کردن فرم دو جلسه بر اساس تعداد واحد
-        function handleCreditSelection() {
-            const creditHours = document.getElementById('credit_hours').value;
-            const extraSessionsContainer = document.getElementById('extra-sessions-container');
-            if (creditHours == '3') {
-                extraSessionsContainer.style.display = 'block';  // نمایش فرم انتخاب دو جلسه
-            } else {
-                extraSessionsContainer.style.display = 'none';  // پنهان کردن فرم انتخاب دو جلسه
+        function updateTimeFields() {
+            const unit = parseInt(document.getElementById("unit").value);
+            const timeFieldsContainer = document.getElementById("time-fields");
+
+            timeFieldsContainer.innerHTML = '';
+
+            const count = (unit === 3) ? 2 : (unit === 1 || unit === 2) ? 1 : 0;
+
+            for (let i = 0; i < count; i++) {
+                const block = document.createElement("div");
+                block.className = "time-block";
+
+                const daySelect = document.createElement("select");
+                daySelect.name = `day${i}`;
+                daySelect.required = true;
+                daySelect.innerHTML = `
+      <option value="">انتخاب روز</option>
+      <option value="شنبه">شنبه</option>
+      <option value="یکشنبه">یکشنبه</option>
+      <option value="دوشنبه">دوشنبه</option>
+      <option value="سه‌شنبه">سه‌شنبه</option>
+      <option value="چهارشنبه">چهارشنبه</option>
+    `;
+
+                const timeSelect = document.createElement("select");
+                timeSelect.name = `time${i}`;
+                timeSelect.required = true;
+                timeSelect.innerHTML = `
+      <option value="">انتخاب ساعت</option>
+      <option value="08:00">08:00</option>
+      <option value="10:00">10:00</option>
+      <option value="12:00">12:00</option>
+      <option value="14:00">14:00</option>
+      <option value="16:00">16:00</option>
+    `;
+
+                block.appendChild(daySelect);
+                block.appendChild(timeSelect);
+                timeFieldsContainer.appendChild(block);
             }
         }
-
-        // اعتبارسنجی تداخل زمانی در کلاس‌ها
-        document.getElementById('lesson-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const firstDay = document.getElementById('first_class_day').value;
-            const secondDay = document.getElementById('second_class_day').value;
-            const firstTime = document.getElementById('first_class_time').value;
-            const secondTime = document.getElementById('second_class_time').value;
-            const examDate = document.getElementById('exam_date').value;
-            const errorMessage = document.getElementById('error-message');
-
-            // اگر روز یا ساعت کلاس‌ها مشابه هم باشند، ارور نمایش داده می‌شود
-            if ((firstDay === secondDay) || (firstTime === secondTime)) {
-                errorMessage.innerText = 'تداخل زمانی! کلاس‌ها باید در روزها و ساعات مختلف برگزار شوند.';
-            } else {
-                // اضافه کردن درس به جدول
-                const row = document.querySelector(`#schedule-table tr:nth-child(${getDayRow(firstDay)})`);
-                const cell1 = row.querySelector('td:nth-child(2)');
-                const cell2 = row.querySelector('td:nth-child(3)');
-                const cell3 = row.querySelector('td:nth-child(4)');
-
-                if (cell1.classList.contains('empty')) {
-                    cell1.textContent = `کلاس اول: ${firstTime}`;
-                } else if (cell2.classList.contains('empty')) {
-                    cell2.textContent = `کلاس دوم: ${secondTime}`;
-                } else {
-                    errorMessage.innerText = 'تداخل در برنامه کلاسی!';
-                    return;
-                }
-
-                // ثبت تاریخ امتحان
-                cell3.textContent = examDate;
-
-                // پاک کردن فرم
-                document.getElementById('lesson-form').reset();
-            }
-        });
-
-        // پیکربندی تاریخ‌نگار جلالی برای تاریخ امتحان
-        mobiscroll.datepicker('#exam_date', {
-            theme: 'ios',
-            display: 'bottom',
-            dateFormat: 'yyyy/mm/dd',
-            max: new Date()  // محدود کردن انتخاب تاریخ به تاریخ‌های امروز و گذشته
-        });
-
-        // تعیین ردیف مربوط به روزها
-        function getDayRow(day) {
-            switch (day) {
-                case 'saturday': return 1;
-                case 'sunday': return 2;
-                case 'monday': return 3;
-                case 'tuesday': return 4;
-                case 'wednesday': return 5;
-                default: return 1;
-            }
-        }
-
-        // فراخوانی این تابع هنگام بارگذاری صفحه
-        handleCreditSelection();
     </script>
 
 </body>
