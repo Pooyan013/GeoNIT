@@ -11,16 +11,24 @@
             background-color: #f0f4f8;
             padding: 2rem;
             display: flex;
-            gap: 2rem;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
-        form {
-            width: 400px;
+        .container {
+            display: flex;
+            gap: 2rem;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .form-container {
             background: white;
             padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 50%;
         }
 
         label {
@@ -42,150 +50,135 @@
             font-size: 1rem;
         }
 
-        .time-block {
-            margin-top: 1rem;
-            background-color: #eef2f7;
-            padding: 1rem;
-            border-radius: 0.75rem;
+        .schedule-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
         }
 
-        .time-block select {
+        .schedule-row select {
             width: 48%;
-            display: inline-block;
-            margin-top: 0.5rem;
         }
 
-        .time-block select:first-child {
-            margin-left: 4%;
-        }
-
-        button {
+        .submit-button {
             background-color: #3b82f6;
             color: white;
             font-weight: bold;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             transition: background 0.2s;
         }
 
-        button:hover {
+        .submit-button:hover {
             background-color: #2563eb;
         }
 
-        .schedule-box {
-            width: 700px;
+        .added-courses {
             background: white;
+            width: 100%;
+            max-width: 500px;
             padding: 1rem;
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             overflow-x: auto;
+            height: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #ddd;
         }
 
-        th,
-        td {
-            border: 1px solid #ccc;
-            text-align: center;
-            padding: 0.5rem;
-            font-size: 0.9rem;
+        .course-item button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
         }
 
-        th {
-            background-color: #e0e7ff;
+        .course-item button:hover {
+            background-color: darkred;
         }
 
-        .day-header {
-            font-weight: bold;
-            background-color: #f3f4f6;
+        .added-courses h3 {
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 
 <body>
 
-    <form id="course-form" action="/planner/add-course/" method="POST">
-        {% csrf_token %}
-        <label for="course_name">نام درس</label>
-        <input type="text" id="course_name" name="course_name" required>
+    <div class="container">
+        <!-- فرم اضافه کردن درس -->
+        <div class="form-container">
+            <form id="course-form">
+                {% csrf_token %}
+                <label for="course_name">نام درس:</label>
+                <input type="text" name="course_name" required><br>
 
-        <label for="units">تعداد واحد</label>
-        <select id="units" name="units" onchange="updateTimeFields()" required>
-            <option value="">انتخاب کنید</option>
-            <option value="1">۱ واحد</option>
-            <option value="2">۲ واحد</option>
-            <option value="3">۳ واحد</option>
-        </select>
+                <label for="units">تعداد واحد:</label>
+                <select name="units" id="units-dropdown" required>
+                    <option value="1">1 واحد</option>
+                    <option value="2">2 واحد</option>
+                    <option value="3">3 واحد</option>
+                </select><br>
+                <label for="schedule">روزها و ساعات:</label>
+                <div id="schedule-container">
+                    <!-- انتخاب روز و ساعت اینجا قرار می‌گیرد -->
+                </div>
 
-        <div id="time-fields"></div>
+                <label for="exam_date">تاریخ امتحان:</label>
+                <input type="date" name="exam_date" required><br>
 
-        <label for="exam_date">تاریخ امتحان</label>
-        <input type="date" id="exam_date" name="exam_date" required>
+                <label for="exam_time">زمان امتحان:</label>
+                <input type="time" name="exam_time" required><br>
 
-        <label for="exam_time">ساعت امتحان</label>
-        <input type="time" id="exam_time" name="exam_time" required>
+                <button type="submit" class="submit-button">اضافه کردن درس</button>
+            </form>
+        </div>
 
-        <button type="button" onclick="addCourse(event)">افزودن درس</button>
-    </form>
-
-    <div class="schedule-box">
-        <table id="courses-table">
-            <thead>
-                <tr>
-                    <th>روز / ساعت</th>
-                    <th>08:00 - 09:30</th>
-                    <th>09:30 - 11:00</th>
-                    <th>13:30 - 15:00</th>
-                    <th>15:00 - 16:30</th>
-                    <th>16:30 - 18:00</th>
-                    <th>18:00 - 19:30</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="day-header">شنبه</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <!-- Other rows for days -->
-            </tbody>
-        </table>
+        <!-- کادر نمایش دروس اضافه شده -->
+        <div class="added-courses">
+            <h3>دروس اضافه‌شده:</h3>
+            <ul id="courses-list">
+                <!-- دروس اضافه‌شده اینجا نمایش داده می‌شود -->
+            </ul>
+        </div>
     </div>
 
     <script>
-        function updateTimeFields() {
-            const unit = parseInt(document.getElementById("units").value);
-            const timeFieldsContainer = document.getElementById("time-fields");
+        document.getElementById("units-dropdown").addEventListener("change", function () {
+            updateScheduleFields();
+        });
 
-            timeFieldsContainer.innerHTML = '';
+        function updateScheduleFields() {
+            const unit = parseInt(document.getElementById("units-dropdown").value);
+            const container = document.getElementById("schedule-container");
 
-            const count = (unit === 3) ? 2 : (unit === 1 || unit === 2) ? 1 : 0;
+            container.innerHTML = ''; // پاک کردن محتوا
 
-            for (let i = 0; i < count; i++) {
-                const block = document.createElement("div");
-                block.className = "time-block";
+            // اگر واحد 1 یا 2 باشد، یک جلسه
+            if (unit <= 2) {
+                const scheduleRow = document.createElement("div");
+                scheduleRow.className = "schedule-row";
 
                 const daySelect = document.createElement("select");
-                daySelect.name = `day${i}`;
+                daySelect.name = "day0";
                 daySelect.required = true;
-                daySelect.innerHTML = `
+                daySelect.innerHTML = ` 
                     <option value="">انتخاب روز</option>
                     <option value="شنبه">شنبه</option>
                     <option value="یکشنبه">یکشنبه</option>
                     <option value="دوشنبه">دوشنبه</option>
                     <option value="سه‌شنبه">سه‌شنبه</option>
                     <option value="چهارشنبه">چهارشنبه</option>
-                `;
+                    <option value="پنج‌شنبه">پنج‌شنبه</option>`;
 
                 const timeSelect = document.createElement("select");
-                timeSelect.name = `time${i}`;
+                timeSelect.name = "time0";
                 timeSelect.required = true;
                 timeSelect.innerHTML = `
                     <option value="">انتخاب ساعت</option>
@@ -194,16 +187,50 @@
                     <option value="13:30">13:30 - 15:00</option>
                     <option value="15:00">15:00 - 16:30</option>
                     <option value="16:30">16:30 - 18:00</option>
-                    <option value="18:00">18:00 - 19:30</option>
-                `;
+                    <option value="18:00">18:00 - 19:30</option>`;
 
-                block.appendChild(daySelect);
-                block.appendChild(timeSelect);
-                timeFieldsContainer.appendChild(block);
+                scheduleRow.appendChild(daySelect);
+                scheduleRow.appendChild(timeSelect);
+                container.appendChild(scheduleRow);
+            }
+            // اگر واحد 3 باشد، دو جلسه
+            else if (unit === 3) {
+                for (let i = 0; i < 2; i++) {
+                    const scheduleRow = document.createElement("div");
+                    scheduleRow.className = "schedule-row";
+
+                    const daySelect = document.createElement("select");
+                    daySelect.name = `day${i}`;
+                    daySelect.required = true;
+                    daySelect.innerHTML = `
+                        <option value="">انتخاب روز</option>
+                        <option value="شنبه">شنبه</option>
+                        <option value="یکشنبه">یکشنبه</option>
+                        <option value="دوشنبه">دوشنبه</option>
+                        <option value="سه‌شنبه">سه‌شنبه</option>
+                        <option value="چهارشنبه">چهارشنبه</option>
+                        <option value="پنج‌شنبه">پنج‌شنبه</option>`;
+
+                    const timeSelect = document.createElement("select");
+                    timeSelect.name = `time${i}`;
+                    timeSelect.required = true;
+                    timeSelect.innerHTML = `
+                        <option value="">انتخاب ساعت</option>
+                        <option value="08:00">08:00 - 09:30</option>
+                        <option value="09:30">09:30 - 11:00</option>
+                        <option value="13:30">13:30 - 15:00</option>
+                        <option value="15:00">15:00 - 16:30</option>
+                        <option value="16:30">16:30 - 18:00</option>
+                        <option value="18:00">18:00 - 19:30</option>`;
+
+                    scheduleRow.appendChild(daySelect);
+                    scheduleRow.appendChild(timeSelect);
+                    container.appendChild(scheduleRow);
+                }
             }
         }
 
-        function addCourse(event) {
+        document.getElementById("course-form").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const courseData = new FormData(document.getElementById("course-form"));
@@ -212,7 +239,7 @@
             fetch('/planner/add-course/', {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': csrftoken
+                    'X-CSRFToken': csrftoken,
                 },
                 body: courseData,
             })
@@ -221,22 +248,33 @@
                     if (data.error) {
                         alert(data.error);
                     } else {
-                        updateTable(data);
+                        addCourseToList(data);  // اضافه کردن درس به لیست
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        });
+
+        function addCourseToList(course) {
+            const courseList = document.getElementById("courses-list");
+            const listItem = document.createElement("li");
+            listItem.className = "course-item";
+
+            listItem.innerHTML = `
+            <span>${course.course_name} - ${course.units} واحد</span>
+            <button onclick="removeCourse(this)">حذف</button>
+        `;
+
+            courseList.appendChild(listItem);
         }
 
-        function updateTable(course) {
-            const table = document.getElementById("courses-table");
-            const row = table.insertRow();
-            row.insertCell(0).textContent = course.course_name;
-            row.insertCell(1).textContent = course.units;
-            row.insertCell(2).textContent = course.days.join(', ');
-            row.insertCell(3).textContent = course.times.join(', ');
-            row.insertCell(4).textContent = course.exam_date;
-            row.insertCell(5).textContent = course.exam_time;
+        function removeCourse(button) {
+            const listItem = button.parentElement;
+            listItem.remove();  // حذف کردن درس از لیست
         }
+        // بارگذاری پیش‌فرض برای واحد 1
+        document.addEventListener('DOMContentLoaded', function () {
+            updateScheduleFields();
+        });
     </script>
 
 </body>

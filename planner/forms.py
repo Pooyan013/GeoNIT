@@ -1,7 +1,10 @@
 from django import forms
-from .models import Lesson
+from .models import Course
 
-class LessonForm(forms.ModelForm):
+class CourseForm(forms.ModelForm):
     class Meta:
-        model = Lesson
-        fields = ['name', 'unit', 'day', 'time', 'exam_day', 'exam_time']
+        model = Course
+        fields = ['course_name', 'units', 'days', 'start_time', 'end_time', 'exam_date', 'exam_time']
+
+    class Media:
+        js = ('planner/js/course_form.js',)
