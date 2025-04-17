@@ -52,7 +52,6 @@
             height: auto;
         }
 
-        /* استایل برای هدرها */
         h1,
         h2,
         h3,
@@ -60,26 +59,18 @@
         h5,
         h6 {
             font-family: 'Vazir', sans-serif;
-            /* استفاده از فونت وزیر */
             font-weight: bold;
-            /* بولد کردن فونت */
             color: #2c3e50;
-            /* رنگ تیره‌تر برای خوانایی بهتر */
             margin-bottom: 20px;
-            /* فاصله پایین */
         }
 
-        /* استایل خاص برای هدرهای هدر اصلی */
         header h1,
         header h2,
         header h3 {
             font-size: 2rem;
-            /* اندازه بزرگ‌تر برای هدرهای اصلی */
             text-align: center;
-            /* تراز وسط */
         }
 
-        /* استایل برای لینک‌های هدر */
         .menu-area-main a {
             font-family: 'Vazir', sans-serif;
             font-weight: bold;
@@ -91,7 +82,7 @@
 
         .menu-area-main a:hover {
             color: #f39c12;
-            /* تغییر رنگ لینک‌ها هنگام هاور */
+
         }
     </style>
 </head>
@@ -132,8 +123,8 @@
                                 <li><a href="{% url 'article' %}"
                                         class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
                                 <li><a href="{% url 'add_course' %}">برنامه ریز</a></li>
-                                <li><a href="{% url 'shop_home' %}"
-                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
+                                <!-- <li><a href="{% url 'shop_home' %}"
+                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li> -->
 
                                 {% if user.is_authenticated %}
                                 <li class="dropdown">
@@ -212,6 +203,7 @@
                     </ul>
                 </div>
 
+                <!-- بخش نقشه -->
                 <div class="col-lg-6 col-md-12 d-flex justify-content-center">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.7082986782475!2d52.683151824909174!3d36.561145781139835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8f88155391a6cb%3A0x381087fd25f45508!2z2K_Yp9mG2LTar9in2Ycg2LXZhti52KrbjCDZhtmI2LTbjNix2YjYp9mG24wg2KjYp9io2YQ!5e0!3m2!1sfa!2sse!4v1744318835778!5m2!1sfa!2sse"
@@ -219,6 +211,7 @@
                         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
+                <!-- بخش لینک‌ها -->
                 <div class="col-lg-3 col-md-6">
                     <div class="footer_links" dir="rtl">
                         <h3>دسترسی سریع</h3>

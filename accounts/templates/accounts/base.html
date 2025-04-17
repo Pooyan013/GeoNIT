@@ -82,6 +82,7 @@
 
         .menu-area-main a:hover {
             color: #f39c12;
+
         }
     </style>
 </head>
@@ -122,8 +123,8 @@
                                 <li><a href="{% url 'article' %}"
                                         class="{% if request.path == '/geo-blog/' %}active{% endif %}">ژئو بلاگ</a></li>
                                 <li><a href="{% url 'add_course' %}">برنامه ریز</a></li>
-                                <li><a href="{% url 'shop_home' %}"
-                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li>
+                                <!-- <li><a href="{% url 'shop_home' %}"
+                                        class="{% if request.path == '/store/' %}active{% endif %}">فروشگاه</a></li> -->
 
                                 {% if user.is_authenticated %}
                                 <li class="dropdown">
