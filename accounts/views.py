@@ -14,14 +14,10 @@ def register(request):
         form = RegisterationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
-            messages.success(request, 'با موفقیت ثبت نام شدید و وارد حساب کاربری خود شدید!')
-
-            return redirect('home')  
-
+            messages.success(request, 'ثبت‌نام با موفقیت انجام شد!')
+            return redirect('login')  # مطمئن شوید این خط وجود دارد
         else:
-            messages.error(request, 'ثبت نام ناموفق. لطفاً اطلاعات را بررسی کنید.')
-
+            print(form.errors)  # برای دیباگ
     else:
         form = RegisterationForm()
 
@@ -35,21 +31,25 @@ def user_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             
-            user = authenticate(request, email=email, password=password)
+            # Try to authenticate with email
+            user = authenticate(request, username=email, password=password)
             
             if user is not None:
-                auth_login(request, user)  
-                return redirect('home') 
+                auth_login(request, user)
+                messages.success(request, "با موفقیت وارد شدید!")
+                return redirect('home')  # Redirect to home page
             else:
-                messages.error(request, "اطلاعات وارد شده صحیح نیست!") 
+                messages.error(request, "ایمیل یا رمز عبور اشتباه است.")
+        else:
+            messages.error(request, "لطفاً اطلاعات را به درستی وارد کنید.")
     else:
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
 
-
 def custom_logout(request):
     logout(request)
+    messages.success(request, "با موفقیت خارج شدید!")
     return redirect('home')
 
 
@@ -70,6 +70,8 @@ def edit_profile(request):
             form.save()
             messages.success(request, 'اطلاعات شما با موفقیت به‌روزرسانی شد.')
             return redirect('edit_profile')
+        else:
+            messages.error(request, 'خطا در به‌روزرسانی اطلاعات. لطفاً اطلاعات را بررسی کنید.')
     else:
         form = EditProfileForm(instance=request.user)
     

@@ -9,10 +9,47 @@
             font-family: Vazirmatn, sans-serif;
             direction: rtl;
             background-color: #f0f4f8;
-            padding: 2rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
         }
 
         .container {
@@ -21,6 +58,7 @@
             justify-content: space-between;
             width: 100%;
             max-width: 1100px;
+            margin: 2rem auto;
         }
 
         .form-container {
@@ -79,8 +117,10 @@
             padding: 1rem;
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-            height: auto;
+            overflow-y: auto;
+            /* اضافه کردن اسکرول عمودی */
+            max-height: 300px;
+            /* حداکثر ارتفاع برای اسکرول */
         }
 
         .course-item {
@@ -117,25 +157,46 @@
             margin-bottom: 1rem;
         }
 
-        .pdf-button {
-            background-color: #34d399;
+        .btn-download {
+            display: block;
+            margin: 1rem auto 0;
+            /* فاصله از بالا و وسط‌چین کردن */
+            padding: 10px 20px;
+            background-color: #3498db;
             color: white;
-            font-weight: bold;
-            padding: 0.6rem 1rem;
+            text-decoration: none;
             border-radius: 0.5rem;
+            font-weight: bold;
             text-align: center;
-            cursor: pointer;
             transition: background 0.2s;
         }
 
-        .pdf-button:hover {
-            background-color: #10b981;
+        .btn-download:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 
 <body>
+    <!-- هدر -->
+    <header>
+        <div class="logo">GeoNit</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">خانه</a></li>
+                <li><a href="{% url 'geo_news' %}">اخبار</a></li>
+                <li><a href="{% url 'add_course' %}">پلنر</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">خروج</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">ورود</a></li>
+                <li><a href="{% url 'register' %}">ثبت‌نام</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
 
+    <!-- محتوای اصلی -->
     <div class="container">
         <!-- فرم اضافه کردن درس -->
         <div class="form-container">
@@ -170,12 +231,28 @@
         <div class="added-courses">
             <h3>دروس اضافه‌شده:</h3>
             <ul id="courses-list">
-                <!-- دروس اضافه‌شده اینجا نمایش داده می‌شود -->
+                {% for course in courses %}
+                <li>
+                    <strong>{{ course.course_name }}</strong> - {{ course.units }} واحد
+                    <br>
+                    تاریخ امتحان: {{ course.exam_date }} | ساعت امتحان: {{ course.exam_time }}
+                    <br>
+                    جلسات:
+                    <ul>
+                        {% for schedule in course.schedule.all %}
+                        <li>{{ schedule.day }} - {{ schedule.time }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% empty %}
+                <p>هیچ درسی اضافه نشده است.</p>
+                {% endfor %}
             </ul>
         </div>
     </div>
 
-    <button class="pdf-button" id="download-pdf">دانلود PDF</button>
+    <!-- دکمه دانلود PDF -->
+    <a href="{% url 'export_pdf' %}" class="btn-download">دانلود برنامه به صورت PDF</a>
 
     <script>
         document.getElementById("units-dropdown").addEventListener("change", function () {
@@ -282,27 +359,21 @@
                             const courseItem = document.createElement("li");
                             courseItem.className = "course-item";
 
-                            // جمع‌آوری اطلاعات جلسات
-                            const scheduleContainer = document.getElementById("schedule-container");
-                            const scheduleRows = Array.from(scheduleContainer.querySelectorAll(".schedule-row"));
-                            const scheduleDetails = scheduleRows.map(row => {
-                                const day = row.querySelector("select[name^='day']").value;
-                                const time = row.querySelector("select[name^='time']").value;
-                                return `${day} (${time})`;
-                            }).join(", ");
-
-                            // اضافه کردن اطلاعات به قالب نمایش
+                            // اضافه کردن اطلاعات درس به قالب
                             courseItem.innerHTML = `
-                                ${course.course_name} - ${course.units} واحد | 
-                                امتحان: ${course.exam_date} ${course.exam_time} | 
-                                جلسات: ${scheduleDetails}
+                                <strong>${course.course_name}</strong> - ${course.units} واحد
+                                <br>
+                                تاریخ امتحان: ${course.exam_date} | ساعت امتحان: ${course.exam_time}
+                                <br>
+                                جلسات: ${course.days.map((day, index) => `${day} (${course.times[index]})`).join(", ")}
                             `;
 
+                            // ایجاد دکمه حذف
                             const deleteButton = document.createElement("button");
                             deleteButton.textContent = "حذف";
                             deleteButton.onclick = () => {
-                                deleteCourse(course.course_name); // حذف درس
-                                courseItem.remove();
+                                deleteCourse(course.course_name); // فراخوانی تابع حذف درس
+                                courseItem.remove(); // حذف آیتم از لیست
                             };
 
                             courseItem.appendChild(deleteButton);

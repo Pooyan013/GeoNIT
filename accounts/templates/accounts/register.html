@@ -1,153 +1,152 @@
 {% extends 'accounts/base.html' %}
-
 {% load static %}
-{% block content %}
-<div class="register-container" dir="rtl">
-    <h2 class="form-title">ثبت نام</h2>
 
+{% block content %}
+<div class="register-container">
+    <h2>ثبت‌نام</h2>
+    <!-- نمایش پیام‌ها -->
     {% if messages %}
-    <div class="alert">
+    <div class="messages">
         {% for message in messages %}
-        <p>{{ message }}</p>
+        <p class="message {{ message.tags }}">{{ message }}</p>
         {% endfor %}
     </div>
     {% endif %}
-
-    <form action="" method="post" class="register-form">
+    <!-- نمایش خطاها -->
+    {% if form.errors %}
+    <div class="error-message">
+        <ul>
+            {% for field, errors in form.errors.items %}
+            <li>{{ field }}: {{ errors|join:", " }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <!-- فرم ثبت‌نام -->
+    <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="first_name">نام:</label>
-            {{ form.first_name }}
-        </div>
-        <div class="form-group">
-            <label for="last_name">نام خانوادگی:</label>
-            {{ form.last_name }}
-        </div>
-        <div class="form-group">
-            <label for="email">ایمیل:</label>
-            {{ form.email }}
-        </div>
-        <div class="form-group">
-            <label for="username">نام کاربری:</label>
+            <label for="id_username">نام کاربری:</label>
             {{ form.username }}
         </div>
         <div class="form-group">
-            <label for="password">رمز عبور:</label>
+            <label for="id_email">ایمیل:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_first_name">نام:</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_last_name">نام خانوادگی:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_phone_number">شماره تماس:</label>
+            {{ form.phone_number }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">رمز عبور:</label>
             {{ form.password }}
         </div>
         <div class="form-group">
-            <label for="confirm_password">تایید رمز عبور:</label>
+            <label for="id_confirm_password">تایید رمز عبور:</label>
             {{ form.confirm_password }}
         </div>
-        <div class="form-group">
-            <label for="uni_name">دانشگاه:</label>
-            {{ form.uni_name }}
-        </div>
-        <div class="form-group">
-            <label for="facility_name">دانشکده:</label>
-            {{ form.facility_name }}
-        </div>
-        <button type="submit" class="btn-register">ثبت نام</button>
+        <button type="submit" class="btn-submit">ثبت‌نام</button>
     </form>
-
-    <p class="login-link">
-        قبلاً ثبت‌نام کرده‌اید؟ <a href="{% url 'login' %}">وارد شوید</a>
-    </p>
-
-    <style>
-        .register-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e6e6e6;
-            direction: rtl;
-        }
-
-        .form-title {
-            font-size: 30px;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .register-form .form-group {
-            margin-bottom: 20px;
-        }
-
-        .register-form label {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #34495e;
-            text-align: right;
-        }
-
-        .register-form input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            background-color: #f9f9f9;
-            transition: all 0.3s ease-in-out;
-            text-align: right;
-        }
-
-        .register-form input:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-
-        .btn-register {
-            width: 100%;
-            padding: 15px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn-register:hover {
-            background-color: #2980b9;
-            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
-        }
-
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #fef3c7;
-            color: #b45309;
-            border: 1px solid #fcd34d;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .login-link {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .login-link a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </div>
+
+<style>
+    /* استایل‌های خاص برای فرم ثبت‌نام */
+    .register-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: right;
+        direction: rtl;
+    }
+
+    .register-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: 'Vazir', sans-serif;
+    }
+
+    .form-group input:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 10px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-family: 'Vazir', sans-serif;
+    }
+
+    .btn-submit:hover {
+        background-color: #2980b9;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #fdeaea;
+        border-radius: 5px;
+    }
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .message.success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
 {% endblock %}
