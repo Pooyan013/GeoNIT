@@ -91,20 +91,45 @@
         }
 
         .course-item button {
-            background-color: red;
+            background-color: #ef4444;
+            /* رنگ قرمز ملایم */
             color: white;
             border: none;
-            padding: 0.3rem 0.6rem;
-            border-radius: 0.5rem;
+            padding: 0.2rem 0.6rem;
+            /* کوچک‌تر کردن اندازه */
+            border-radius: 0.3rem;
+            /* گرد کردن گوشه‌ها */
             cursor: pointer;
+            font-size: 0.75rem;
+            /* کوچک‌تر کردن فونت */
+            transition: background-color 0.2s, transform 0.2s;
+            /* اضافه کردن انیمیشن */
         }
 
         .course-item button:hover {
-            background-color: darkred;
+            background-color: #dc2626;
+            /* رنگ قرمز تیره‌تر هنگام هاور */
+            transform: scale(1.1);
+            /* کمی بزرگ‌تر شدن هنگام هاور */
         }
 
         .added-courses h3 {
             margin-bottom: 1rem;
+        }
+
+        .pdf-button {
+            background-color: #34d399;
+            color: white;
+            font-weight: bold;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .pdf-button:hover {
+            background-color: #10b981;
         }
     </style>
 </head>
@@ -125,6 +150,7 @@
                     <option value="2">2 واحد</option>
                     <option value="3">3 واحد</option>
                 </select><br>
+
                 <label for="schedule">روزها و ساعات:</label>
                 <div id="schedule-container">
                     <!-- انتخاب روز و ساعت اینجا قرار می‌گیرد -->
@@ -149,6 +175,8 @@
         </div>
     </div>
 
+    <button class="pdf-button" id="download-pdf">دانلود PDF</button>
+
     <script>
         document.getElementById("units-dropdown").addEventListener("change", function () {
             updateScheduleFields();
@@ -160,7 +188,6 @@
 
             container.innerHTML = ''; // پاک کردن محتوا
 
-            // اگر واحد 1 یا 2 باشد، یک جلسه
             if (unit <= 2) {
                 const scheduleRow = document.createElement("div");
                 scheduleRow.className = "schedule-row";
@@ -168,14 +195,15 @@
                 const daySelect = document.createElement("select");
                 daySelect.name = "day0";
                 daySelect.required = true;
-                daySelect.innerHTML = ` 
+                daySelect.innerHTML = `
                     <option value="">انتخاب روز</option>
                     <option value="شنبه">شنبه</option>
                     <option value="یکشنبه">یکشنبه</option>
                     <option value="دوشنبه">دوشنبه</option>
                     <option value="سه‌شنبه">سه‌شنبه</option>
                     <option value="چهارشنبه">چهارشنبه</option>
-                    <option value="پنج‌شنبه">پنج‌شنبه</option>`;
+                    <option value="پنج‌شنبه">پنج‌شنبه</option>
+                `;
 
                 const timeSelect = document.createElement("select");
                 timeSelect.name = "time0";
@@ -187,14 +215,13 @@
                     <option value="13:30">13:30 - 15:00</option>
                     <option value="15:00">15:00 - 16:30</option>
                     <option value="16:30">16:30 - 18:00</option>
-                    <option value="18:00">18:00 - 19:30</option>`;
+                    <option value="18:00">18:00 - 19:30</option>
+                `;
 
                 scheduleRow.appendChild(daySelect);
                 scheduleRow.appendChild(timeSelect);
                 container.appendChild(scheduleRow);
-            }
-            // اگر واحد 3 باشد، دو جلسه
-            else if (unit === 3) {
+            } else if (unit === 3) {
                 for (let i = 0; i < 2; i++) {
                     const scheduleRow = document.createElement("div");
                     scheduleRow.className = "schedule-row";
@@ -209,7 +236,8 @@
                         <option value="دوشنبه">دوشنبه</option>
                         <option value="سه‌شنبه">سه‌شنبه</option>
                         <option value="چهارشنبه">چهارشنبه</option>
-                        <option value="پنج‌شنبه">پنج‌شنبه</option>`;
+                        <option value="پنج‌شنبه">پنج‌شنبه</option>
+                    `;
 
                     const timeSelect = document.createElement("select");
                     timeSelect.name = `time${i}`;
@@ -221,7 +249,8 @@
                         <option value="13:30">13:30 - 15:00</option>
                         <option value="15:00">15:00 - 16:30</option>
                         <option value="16:30">16:30 - 18:00</option>
-                        <option value="18:00">18:00 - 19:30</option>`;
+                        <option value="18:00">18:00 - 19:30</option>
+                    `;
 
                     scheduleRow.appendChild(daySelect);
                     scheduleRow.appendChild(timeSelect);
@@ -248,35 +277,72 @@
                     if (data.error) {
                         alert(data.error);
                     } else {
-                        addCourseToList(data);  // اضافه کردن درس به لیست
+                        addCourseToList(data);
+                        function addCourseToList(course) {
+                            const courseItem = document.createElement("li");
+                            courseItem.className = "course-item";
+
+                            // جمع‌آوری اطلاعات جلسات
+                            const scheduleContainer = document.getElementById("schedule-container");
+                            const scheduleRows = Array.from(scheduleContainer.querySelectorAll(".schedule-row"));
+                            const scheduleDetails = scheduleRows.map(row => {
+                                const day = row.querySelector("select[name^='day']").value;
+                                const time = row.querySelector("select[name^='time']").value;
+                                return `${day} (${time})`;
+                            }).join(", ");
+
+                            // اضافه کردن اطلاعات به قالب نمایش
+                            courseItem.innerHTML = `
+                                ${course.course_name} - ${course.units} واحد | 
+                                امتحان: ${course.exam_date} ${course.exam_time} | 
+                                جلسات: ${scheduleDetails}
+                            `;
+
+                            const deleteButton = document.createElement("button");
+                            deleteButton.textContent = "حذف";
+                            deleteButton.onclick = () => {
+                                deleteCourse(course.course_name); // حذف درس
+                                courseItem.remove();
+                            };
+
+                            courseItem.appendChild(deleteButton);
+                            document.getElementById("courses-list").appendChild(courseItem);
+                        }
+
+                        function deleteCourse(courseName) {
+                            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                            fetch(`/planner/delete-course/${courseName}/`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRFToken': csrftoken,
+                                },
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.error) {
+                                        alert(data.error);
+                                    }
+                                });
+                        }
+
+                        // دانلود PDF
+                        document.getElementById("download-pdf").addEventListener("click", function () {
+                            const courses = Array.from(document.querySelectorAll(".course-item"));
+                            const courseList = courses.map(course => {
+                                const text = course.textContent.trim();
+                                return text.replace("حذف", "").trim(); // Remove button text
+                            }).join("\n");
+
+                            const doc = new jsPDF();
+                            doc.text(courseList, 10, 10);
+                            doc.save("courses.pdf");
+                        });
                     }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-        function addCourseToList(course) {
-            const courseList = document.getElementById("courses-list");
-            const listItem = document.createElement("li");
-            listItem.className = "course-item";
-
-            listItem.innerHTML = `
-            <span>${course.course_name} - ${course.units} واحد</span>
-            <button onclick="removeCourse(this)">حذف</button>
-        `;
-
-            courseList.appendChild(listItem);
-        }
-
-        function removeCourse(button) {
-            const listItem = button.parentElement;
-            listItem.remove();  // حذف کردن درس از لیست
-        }
-        // بارگذاری پیش‌فرض برای واحد 1
-        document.addEventListener('DOMContentLoaded', function () {
-            updateScheduleFields();
+                });
         });
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 
 </html>

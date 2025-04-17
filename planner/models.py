@@ -12,7 +12,7 @@ class Course(models.Model):
 class Schedule(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='schedule')
     day = models.CharField(max_length=10)
-    time = models.CharField(max_length=5)
+    time = models.TimeField()
     
     def __str__(self):
         return f"{self.day} - {self.time}"

@@ -6,8 +6,12 @@ register = template.Library()
 
 @register.filter
 def to_jalali(value):
-    if not value:
-        return ""
-    value = localtime(value) 
-    jalali_date = jdatetime.datetime.fromgregorian(datetime=value)
-    return jalali_date.strftime("%Y/%m/%d - %H:%M")
+    """
+    تبدیل تاریخ میلادی به شمسی
+    """
+    if value:
+        try:
+            return jdatetime.datetime.fromgregorian(datetime=value).strftime('%Y/%m/%d')
+        except ValueError:
+            return "تاریخ نامعتبر"
+    return ''

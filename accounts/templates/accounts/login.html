@@ -31,8 +31,8 @@
         }
 
         h2 {
-            font-size: 22px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             margin-bottom: 30px;
             color: #333;
         }
@@ -86,6 +86,22 @@
             margin: 5px 0;
         }
 
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .signup-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 400px) {
             .login-form {
                 padding: 30px;
@@ -111,6 +127,9 @@
             </div>
             {% endif %}
         </form>
+        <div class="signup-link">
+            <p>اگر هنوز ثبت نام نکردید، <a href="/accounts/register/">اینجا کلیک کنید</a>.</p>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -50,23 +50,28 @@
         <button type="submit" class="btn-register">ثبت نام</button>
     </form>
 
+    <p class="login-link">
+        قبلاً ثبت‌نام کرده‌اید؟ <a href="{% url 'login' %}">وارد شوید</a>
+    </p>
+
     <style>
         .register-container {
             max-width: 600px;
             margin: 50px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
+            padding: 30px;
+            background-color: #ffffff;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: 1px solid #e6e6e6;
             direction: rtl;
         }
 
         .form-title {
-            font-size: 28px;
+            font-size: 30px;
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
+            font-weight: bold;
         }
 
         .register-form .form-group {
@@ -84,11 +89,11 @@
 
         .register-form input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 14px;
-            background-color: #fff;
+            background-color: #f9f9f9;
             transition: all 0.3s ease-in-out;
             text-align: right;
         }
@@ -101,12 +106,13 @@
 
         .btn-register {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             background-color: #3498db;
             color: white;
             border: none;
             border-radius: 10px;
             font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
@@ -119,10 +125,28 @@
         .alert {
             padding: 15px;
             margin-bottom: 20px;
-            background-color: #f9f9f9;
-            color: #2c3e50;
-            border: 1px solid #e6e6e6;
+            background-color: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fcd34d;
             border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </div>

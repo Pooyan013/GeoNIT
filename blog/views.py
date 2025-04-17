@@ -1,11 +1,20 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import New, Article
+import jdatetime
 
 
 def home(request):
     latest_news = New.objects.all().order_by('-created')[:2]
     latest_articles = Article.objects.all().order_by('-created_at')[:1]
+
+    # تبدیل تاریخ‌ها به شمسی
+    for news in latest_news:
+        news.created = jdatetime.datetime.fromgregorian(datetime=news.created)
+
+    for article in latest_articles:
+        article.created_at = jdatetime.datetime.fromgregorian(datetime=article.created_at)
+
     return render(request, 'blog/home.html', {'latest_news': latest_news, 'latest_articles': latest_articles})
 
 
